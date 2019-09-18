@@ -11,6 +11,8 @@ public class Actor {
     @GeneratedValue
     private Long id;
 
+    private Long actorId;
+
     private String name;
 
     private String gender;
@@ -22,7 +24,8 @@ public class Actor {
 
     }
 
-    public Actor(String name, String gender, int age) {
+    public Actor(Long actorId, String name, String gender, int age) {
+        this.actorId = actorId;
         this.name = name;
         this.gender = gender;
         this.age = age;
@@ -58,5 +61,13 @@ public class Actor {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public Long getActorId() {
+        return actorId;
+    }
+
+    public void setActorId(Long actorId) {
+        this.actorId = actorId;
     }
 }

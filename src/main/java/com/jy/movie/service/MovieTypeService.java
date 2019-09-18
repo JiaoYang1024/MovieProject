@@ -28,4 +28,13 @@ public class MovieTypeService {
       }
 
     }
+
+    public Long getTypeId(String movieType) {
+
+
+
+        MovieType type = movieTypeRepository.findByTypeName(movieType);
+
+        return type.getId();
+    }
 }

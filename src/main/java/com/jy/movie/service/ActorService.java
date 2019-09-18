@@ -17,7 +17,10 @@ public class ActorService {
 
 
     public void checkActorId(Actor actor) {
-        if(!actorRepository.findById(actor.getId()).isPresent()) {
+
+
+
+        if(actorRepository.findByActorId(actor.getActorId())==null) {
 
             actorRepository.save(actor);
         }

@@ -100,23 +100,30 @@ public class MovieService {
         //在电影表和演员表many to many 关系的中间表中添加数据
         Long movieId = movieRepository.getRecentId();
         List<Actor> actorList = movieParam.getActorList();
-        //List<MovieActorRelation> relationList = new ArrayList<>();
+        List<MovieActorRelation> relationList = new ArrayList<>();
         for (Actor actor : actorList) {
-            Long actorId = actor.getId();
+            Long actorId = actor.getActorId();
             MovieActorRelation relation = new MovieActorRelation(movieId, actorId);
+            relationList.add(relation);
 
-          //  relationList.add(relation);
-            movieActorRelationService.saveRelation(relation);
             //在演员表中检查是否存在该演员，不存在就添加新演员
             actorService.checkActorId(actor);
 
         }
-       // System.out.println("------------------------------------");
-       // System.out.println(relationList.size());
-       // System.out.println(relationList.get(1).toString());
-       // System.out.println("------------------------------------");
-       // movieActorRelationService.saveRelations(relationList);
+
+        movieActorRelationService.saveRelations(relationList);
 
 
+    }
+
+    public List<Movie> getMovieByType(String movieType) {
+
+      Long typeId =   movieTypeService.getTypeId(movieType);
+
+        return getMovieByType(typeId);
+    }
+
+    private List<Movie> getMovieByType(Long typeId) {
+        return movieRepository.findAllByTypeNo(typeId);
     }
 }
