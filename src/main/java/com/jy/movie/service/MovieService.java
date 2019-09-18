@@ -1,12 +1,13 @@
 package com.jy.movie.service;
 
 
-import com.jy.movie.entity.Movie;
-import com.jy.movie.repository.MovieRepository;
+import com.jy.movie.entity.*;
+import com.jy.movie.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,8 +20,19 @@ public class MovieService {
     UserService userService;
 
     @Autowired
+    MovieNoService movieNoService;
+
+    @Autowired
     MovieRepository movieRepository;
 
+    @Autowired
+    MovieTypeService movieTypeService;
+
+    @Autowired
+    ActorService actorService;
+
+    @Autowired
+    MovieActorRelationService movieActorRelationService;
 
     public void addMovie(String name) {
         movieRepository.save(new Movie(name));
@@ -54,5 +66,57 @@ public class MovieService {
 
     public void deleteMovieById(long id) {
         movieRepository.deleteById(id);
+    }
+
+    public String getMoviePublishCountryByName(String name) {
+
+        Movie movie = movieRepository.findByName(name);
+        Long movieNo = movie.getMovieNo();
+
+        return movieNoService.getCountryById(movieNo);
+    }
+
+    public void addMoviePro(MovieAddParam movieParam) {
+
+
+        //在电影编号表中添加数据
+        MovieNo movieNo = new MovieNo(movieParam.getPublishDate(), movieParam.getPublishCountry());
+
+        movieNoService.addMovieNo(movieNo);
+
+        //在电影表中添加数据
+        Long movieNoForMovie = movieNoService.getMovieNoRecentNo();
+
+        MovieType movieType = movieParam.getMovieType();
+        Long typeId = movieType.getId();
+
+        Movie movie = new Movie(movieParam.getName(), typeId, movieNoForMovie);
+
+        addMovie(movie);
+
+        //在电影类型表中检查是否存在该电影类型，不存在就添加新类型
+        movieTypeService.checkTypeId(movieType);
+
+        //在电影表和演员表many to many 关系的中间表中添加数据
+        Long movieId = movieRepository.getRecentId();
+        List<Actor> actorList = movieParam.getActorList();
+        //List<MovieActorRelation> relationList = new ArrayList<>();
+        for (Actor actor : actorList) {
+            Long actorId = actor.getId();
+            MovieActorRelation relation = new MovieActorRelation(movieId, actorId);
+
+          //  relationList.add(relation);
+            movieActorRelationService.saveRelation(relation);
+            //在演员表中检查是否存在该演员，不存在就添加新演员
+            actorService.checkActorId(actor);
+
+        }
+       // System.out.println("------------------------------------");
+       // System.out.println(relationList.size());
+       // System.out.println(relationList.get(1).toString());
+       // System.out.println("------------------------------------");
+       // movieActorRelationService.saveRelations(relationList);
+
+
     }
 }

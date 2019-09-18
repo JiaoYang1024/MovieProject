@@ -6,9 +6,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class TaiMovie {
 
-    @Value("${movie.name}")
+   // @Value("${movie.name}")
     private String name;
-    @Value("${movie.type}")
+   // @Value("${movie.type}")
     private String type;
 
     public TaiMovie() {

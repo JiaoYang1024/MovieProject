@@ -4,6 +4,7 @@ package com.jy.movie.entity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.List;
 
 @Entity
 public class Movie {
@@ -13,7 +14,12 @@ public class Movie {
     Long id;
 
     private String name;
-    private String type;
+
+    private Long typeNo;    //many to one
+    private Long movieNo;   //one to one
+   // private List<Actor> actors; //many to many
+
+   // private Actor actors;
 
     public Movie() {
     }
@@ -22,9 +28,10 @@ public class Movie {
         this.name = name;
     }
 
-    public Movie(String name, String type) {
+    public Movie(String name, Long typeNo, Long movieNo) {
         this.name = name;
-        this.type = type;
+        this.typeNo = typeNo;
+        this.movieNo = movieNo;
     }
 
     public String getName() {
@@ -35,13 +42,7 @@ public class Movie {
         this.name = name;
     }
 
-    public String getType() {
-        return type;
-    }
 
-    public void setType(String type) {
-        this.type = type;
-    }
 
 
     public Long getId() {
@@ -52,11 +53,28 @@ public class Movie {
         this.id = id;
     }
 
-    @Override
-    public String toString() {
-        return "Movie{" +
-                "name='" + name + '\'' +
-                ", type='" + type + '\'' +
-                '}';
+
+    public Long getTypeNo() {
+        return typeNo;
     }
+
+    public void setTypeNo(Long typeNo) {
+        this.typeNo = typeNo;
+    }
+
+    public Long getMovieNo() {
+        return movieNo;
+    }
+
+    public void setMovieNo(Long movieNo) {
+        this.movieNo = movieNo;
+    }
+
+   /* public List<Actor> getActors() {
+        return actors;
+    }
+
+    public void setActors(List<Actor> actors) {
+        this.actors = actors;
+    }*/
 }

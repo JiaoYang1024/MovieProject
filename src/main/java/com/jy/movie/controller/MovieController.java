@@ -1,6 +1,7 @@
 package com.jy.movie.controller;
 
 import com.jy.movie.entity.Movie;
+import com.jy.movie.entity.MovieAddParam;
 import com.jy.movie.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -55,6 +56,25 @@ public class MovieController {
     public String deleteMovie(@RequestParam int id) {
         movieService.deleteMovieById(id);
         //movieList.remove(id);
+        return "success";
+    }
+
+
+    @GetMapping("/getMoviePublishCountryByName")
+    public String getMoviePublishCountryByName(@RequestBody Movie movie){
+
+        String name = movie.getName();
+
+       return movieService.getMoviePublishCountryByName(name);
+
+
+    }
+
+    @PostMapping("/addMovie")
+    public String addMoviePro(@RequestBody MovieAddParam movieParam) {
+        //movieService.addMovie(movie.getName());
+        movieService.addMoviePro(movieParam);
+//        movieList.add(movie.getName());
         return "success";
     }
 
