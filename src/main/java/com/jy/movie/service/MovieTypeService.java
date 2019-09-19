@@ -19,22 +19,32 @@ public class MovieTypeService {
 
     public void checkTypeId(MovieType movieType) {
 
-      Optional<MovieType> movieTypeOptional =  movieTypeRepository.findById(movieType.getId());
+        Optional<MovieType> movieTypeOptional = movieTypeRepository.findById(movieType.getId());
 
-      if (!movieTypeOptional.isPresent()){
+        if (!movieTypeOptional.isPresent()) {
 
-          movieTypeRepository.save(movieType);
+            movieTypeRepository.save(movieType);
 
-      }
+        }
 
     }
 
     public Long getTypeId(String movieType) {
 
 
-
         MovieType type = movieTypeRepository.findByTypeName(movieType);
 
         return type.getId();
+    }
+
+    public String getTypeById(Long typeNo) {
+
+        Optional<MovieType> movieTypeOptional = movieTypeRepository.findById(typeNo);
+        String type = "未知类型";
+        if (movieTypeOptional.isPresent()) {
+            type = movieTypeOptional.get().getTypeName();
+        }
+
+        return type;
     }
 }

@@ -116,14 +116,36 @@ public class MovieService {
 
     }
 
-    public List<Movie> getMovieByType(String movieType) {
+    public List<MovieForShow> getMovieByType(String movieType) {
 
       Long typeId =   movieTypeService.getTypeId(movieType);
 
         return getMovieByType(typeId);
     }
 
-    private List<Movie> getMovieByType(Long typeId) {
-        return movieRepository.findAllByTypeNo(typeId);
+    private List<MovieForShow> getMovieByType(Long typeId) {
+
+      List<Movie> movieList =   movieRepository.findAllByTypeNo(typeId);
+
+      List<MovieForShow> movieForShowList = new ArrayList<>();
+      for(Movie movie:movieList){
+          movieForShowList.add(createMovieForShow(movie));
+      }
+        return movieForShowList;
+
     }
+
+    private MovieForShow createMovieForShow(Movie movie) {
+
+
+        MovieForShow movieForShow = new MovieForShow();
+        movieForShow.setId(movie.getId());
+        movieForShow.setName(movie.getName());
+        movieForShow.setMovieType(movieTypeService.getTypeById(movie.getTypeNo()));
+        movieForShow.setPublishDate(movieNoService.getPublishDateById(movie.getMovieNo()));
+        movieForShow.setActors(movieActorRelationService.getActorNameList(movie.getId()));
+        return movieForShow;
+    }
+
+
 }

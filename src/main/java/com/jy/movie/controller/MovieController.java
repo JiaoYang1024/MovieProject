@@ -2,6 +2,7 @@ package com.jy.movie.controller;
 
 import com.jy.movie.entity.Movie;
 import com.jy.movie.entity.MovieAddParam;
+import com.jy.movie.entity.MovieForShow;
 import com.jy.movie.entity.MovieType;
 import com.jy.movie.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +81,7 @@ public class MovieController {
     }
 
     @GetMapping("/getMoviesByType")
-    public List<Movie> getMoviesByType(@RequestBody MovieType movieType){
+    public List<MovieForShow> getMoviesByType(@RequestBody MovieType movieType){
 
         return movieService.getMovieByType(movieType.getTypeName());
     }

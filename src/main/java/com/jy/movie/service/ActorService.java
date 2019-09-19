@@ -25,4 +25,11 @@ public class ActorService {
             actorRepository.save(actor);
         }
     }
+
+    public String getNameById(Long actorId) {
+
+        return  actorRepository.findByActorId(actorId).getName();
+
+
+    }
 }

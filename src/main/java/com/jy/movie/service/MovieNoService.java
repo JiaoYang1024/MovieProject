@@ -35,13 +35,23 @@ public class MovieNoService {
         String publishCountry = "未知";
 
         if (movieNoOptional.isPresent()) {
-            MovieNo movieNo1 = movieNoOptional.get();
-            publishCountry = movieNo1.getPublishCountry();
+
+            publishCountry = movieNoOptional.get().getPublishCountry();
         }
         return publishCountry;
     }
 
 
+    public String getPublishDateById(Long movieNo) {
 
+        Optional<MovieNo> movieNoOptional = movieNoRepository.findById(movieNo);
 
+        String publishDate = "未知";
+
+        if (movieNoOptional.isPresent()) {
+
+            publishDate = movieNoOptional.get().getPublishCountry();
+        }
+        return publishDate;
+    }
 }
