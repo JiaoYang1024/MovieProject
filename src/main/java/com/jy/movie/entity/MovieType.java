@@ -13,6 +13,7 @@ public class MovieType {
 
     private String typeFeature;
 
+
     public MovieType() {
     }
 

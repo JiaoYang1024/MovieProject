@@ -68,15 +68,14 @@ public class MovieController {
         String name = movie.getName();
 
        return movieService.getMoviePublishCountryByName(name);
-
-
     }
 
     @PostMapping("/addMovie")
     public String addMoviePro(@RequestBody MovieAddParam movieParam) {
         //movieService.addMovie(movie.getName());
-        movieService.addMoviePro(movieParam);
 //        movieList.add(movie.getName());
+
+        movieService.addMoviePro(movieParam);
         return "success";
     }
 
